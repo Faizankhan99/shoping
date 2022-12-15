@@ -9,7 +9,7 @@ const cors = require("cors")
 require("dotenv").config()
 const PORT = process.env.PORT || 9000;
 const mongo_url=process.env.mongo_url||""
-
+app.use(cors())
 app.use("/all", Shoping)
 app.use("/bookmark",Bookmark)
 app.get('/', (req, res) => res.send('hello'))
