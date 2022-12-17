@@ -1,19 +1,20 @@
 const express = require('express')
 const { mongoose } = require('mongoose')
-const app = express()
-const Shoping = require("../Routing/shoping")
-const Bookmark=require("../Routing/bookmarks")
-app.use(express.urlencoded({extended: true}))
-app.use(express.json())
 const cors = require("cors")
+const Job=require("../Routing/Routing")
+require("dotenv").config()
+const app = express()
+app.use(express.urlencoded({ extended: true }))
+app.use(express.json())
+app.use(cors())
 require("dotenv").config()
 const PORT = process.env.PORT || 9000;
 const mongo_url=process.env.mongo_url||""
-app.use(cors())
-app.use("/all", Shoping)
-app.use("/bookmark",Bookmark)
+
+
 app.get('/', (req, res) => res.send('hello'))
 
+app.use("/job", Job)
 
 app.listen(PORT, async () => {
     await mongoose.connect(mongo_url)
