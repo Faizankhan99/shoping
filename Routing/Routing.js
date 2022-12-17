@@ -1,11 +1,15 @@
 const express = require('express');
-const Job = require("../model/Job.model")
+const Job = require("../Model/job.model")
 const app = express.Router()
+
+// console.log(Job)
+/// ------------------------Get all--------------------------------
 
 app.get("/", async(req, res) => {
     const data=await Job.find({})
     res.send(data)
 })
+// -----------------------Getbylanguage--------------------------------
 
 app.get("/:id", async (req, res) => { 
     const { id } = req.params
@@ -18,6 +22,9 @@ app.get("/:id", async (req, res) => {
         console.log(err)
     }
 })
+
+// -----------------------Posting--------------------------------
+
 app.post("/", async(req, res) => {
     const { company, postedAt, city,role,level,contract,position,language } = req.body;
     try {
@@ -28,6 +35,16 @@ app.post("/", async(req, res) => {
     }
 })
 
+// -----------------------Sorting--------------------------------
+
+app.get("/", async (req, res) => {
+    const{page=1,limit=16,orderBy="id",order="asc"}=req.query
+  const data = await Job.find({})
+  .sort({[orderBy]:order==="asc"?1:-1})
+  .skip((page-1)*limit)
+  .limit(limit)
+  res.send(data);
+});
 
 
 
