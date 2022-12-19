@@ -1,22 +1,23 @@
-const express = require('express')
-const { mongoose } = require('mongoose')
-const cors = require("cors")
-const Job=require("../Routing/Routing")
-require("dotenv").config()
-const app = express()
-app.use(express.urlencoded({ extended: true }))
-app.use(express.json())
-app.use(cors())
-require("dotenv").config()
-const PORT = process.env.PORT || 9000;
-const mongo_url=process.env.mongo_url||""
+const dotenv = require("dotenv");
+const express = require("express");
+const cors = require("cors");
+const dbConnect = require("./config/db");
+const Job = require("../Routing/Routing");
+
+dotenv.config();
+let PORT = process.env.PORT || 8080;
+
+const app = express();
+app.use(cors());
+app.use(express.json());
+app.use("/job", Job);
 
 
-app.get('/', (req, res) => res.send('hello'))
+app.get("/", (req, res) => {
+  res.send("hello world !");
+});
 
-app.use("/job", Job)
-
-app.listen(PORT, async () => {
-    await mongoose.connect(mongo_url)
-    console.log(`server started on port ${PORT}`)
-})
+app.listen(PORT || 8080, async () => {
+  await dbConnect();
+  console.log(`Listening on http://localhost:${PORT}`);
+});
