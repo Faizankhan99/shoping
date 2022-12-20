@@ -32,15 +32,15 @@ app.get("/random", async (req, res) => {
 
 // ------------------------Post USer--------------------------------
 
-// app.post("/user", async(req, res) => {
-//     const {name,difficulty} = req.body;
-//     try {
-//         const User = await Game.create({ name, difficulty })
-//         res.send(User)
-//     } catch (err) {
-//         console.log(err)
-//     }
-// })
+app.post("/user", async(req, res) => {
+    const {name,Score} = req.body;
+    try {
+        const User = await Game.create({ name, Score })
+        res.send(User)
+    } catch (err) {
+        console.log(err)
+    }
+})
 
 
 
