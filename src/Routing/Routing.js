@@ -1,51 +1,46 @@
 const express = require('express');
-const Job = require("../model/Job.model")
+const Game = require("../model/game.model")
 const app = express.Router()
 
-// console.log(Job)
-/// ------------------------Get all--------------------------------
+// ------------------------Get All user--------------------------------
 
 app.get("/", async(req, res) => {
-    const data=await Job.find({})
-    res.send(data)
+    const alluser= await Game.find({})
+    res.send(alluser)
 })
-// -----------------------Getbylanguage--------------------------------
 
-app.get("/:id", async (req, res) => { 
-    const { id } = req.params
-    // console.log(language)
+
+// ------------------------Get Random text--------------------------------
+
+
+app.get("/random", async (req, res) => {
     try {
-        const data=await Job.find({language: id})
-        // console.log(data)
-        res.send(data)
+        let text ='';
+        let alpha = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890abcdefghijklmnopqrstuvwxyz';
+        for (let i=0;i<5;i++) {
+            text+=alpha.charAt(Math.floor(Math.random()*alpha.length))
+        }
+        console.log(text)
+        res.send(text)
+
     } catch (err) {
-        console.log(err)
+        console.log(err);
+        res.send(500).json({ error: true, message: "Internal Server Error" })
     }
 })
 
-// -----------------------Posting--------------------------------
 
-app.post("/", async(req, res) => {
-    const { company, postedAt, city,role,level,contract,position,language } = req.body;
-    try {
-        let data = await Job.create({company, postedAt, city,role,level,contract,position,language })
-        res.send(data)
-    } catch (err) {
-        console.log(err)
-    }
-})
+// ------------------------Post USer--------------------------------
 
-// -----------------------Sorting--------------------------------
-
-app.get("/", async (req, res) => {
-    const{page=1,limit=16,orderBy="id",order="asc"}=req.query
-  const data = await Job.find({})
-  .sort({[orderBy]:order==="asc"?1:-1})
-  .skip((page-1)*limit)
-  .limit(limit)
-  res.send(data);
-});
-
+// app.post("/user", async(req, res) => {
+//     const {name,difficulty} = req.body;
+//     try {
+//         const User = await Game.create({ name, difficulty })
+//         res.send(User)
+//     } catch (err) {
+//         console.log(err)
+//     }
+// })
 
 
 
