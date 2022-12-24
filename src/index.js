@@ -1,8 +1,9 @@
 const dotenv = require("dotenv");
 const express = require("express");
 const cors = require("cors");
-const dbConnect = require("./config/db");
-const Game = require("./Routing/Routing");
+const User = require("./Routing/User.route")
+const Coures = require("./Routing/Course")
+const dbConnect=require("./config/db")
 
 dotenv.config();
 let PORT = process.env.PORT || 8080;
@@ -10,7 +11,9 @@ let PORT = process.env.PORT || 8080;
 const app = express();
 app.use(cors());
 app.use(express.json());
-app.use("/game", Game);
+app.use("/user", User);
+app.use("/course", Coures);
+
 
 
 app.get("/", (req, res) => {
